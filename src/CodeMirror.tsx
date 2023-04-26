@@ -15,7 +15,7 @@ const lineSeparator = new Compartment();
 export const CodeMirror = (
   props: JSX.HTMLAttributes<HTMLDivElement> & {
     code: string[];
-    setCode?: (code: string) => void;
+    setCode?: (code: string[]) => void;
     error?: string;
     reverseIcon?: boolean;
     containerClass?: string;
@@ -46,35 +46,12 @@ export const CodeMirror = (
       parent: editorRef,
     });
 
-    editorView.contentDOM.addEventListener("onchange", () => {
-      console.log("inptiu");
-      console.log(
-        "editorView.contentDOM.innerText",
-        editorView.contentDOM.innerText
-      );
-      // actions.setCoding(true)
-    });
     editorView.contentDOM.addEventListener("blur", () => {
-      // actions.setCoding(false)
-
-      // str = "whatever your string is";
-      let reg = /\n\n\n/;
-      // str.replace(reg, "\n\n");
-
-      // console.log("blur", editorView.contentDOM.innerText.replace(reg, "\n"));
-      console.log(editorView.state.doc.toJSON());
       props.setCode?.(editorView.state.doc.toJSON());
     });
 
     resizeObserver.observe(editorRef);
     setWidth(editorRef.offsetWidth);
-  });
-
-  createEffect(() => {
-    console.log("props.code", props.code);
-    // editorView.state.doc
-    // editorView.state.doc.
-    // editorView.contentDOM.innerText = props.code.join("\n") ?? "hallo";
   });
 
   const resizeObserver = new ResizeObserver((entries) => {
